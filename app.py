@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 # Configure Gemini API
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("gemini-2.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash-lite")
 st.set_page_config(page_title="AI Learning Buddy Rama", page_icon="🎓")
 st.title("🎓 AI Learning Buddy Rama")
 topic = st.text_input("Enter a Topic")
