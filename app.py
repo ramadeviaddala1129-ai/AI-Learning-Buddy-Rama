@@ -1,10 +1,14 @@
+%%writefile app.py
+
 import streamlit as st
-from google import genai
+import google.generativeai as genai
 
-# Configure Gemini Client
-client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+# Configure Gemini API
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-st.set_page_config(page_title="AI Learning Buddy Rama", page_icon="🎓")
+model = genai.GenerativeModel("gemini-3.5-flash")
+
+st.set_page_config(page_title="AI Learning Buddy Rama", page_icon="🎓🎓")
 
 st.title("🎓 AI Learning Buddy Rama")
 
@@ -22,9 +26,8 @@ option = st.selectbox(
 
 if st.button("Generate"):
 
-    if topic.strip() == "":
+    if topic == "":
         st.warning("Please enter a topic.")
-
     else:
 
         if option == "Explain Concept":
@@ -34,14 +37,13 @@ if st.button("Generate"):
             prompt = f"Give one simple real-life example of {topic}."
 
         elif option == "Generate Quiz":
-            prompt = f"Create 5 multiple choice questions on {topic} with answers."
+            prompt = f"Create 5 MCQs on {topic} with answers."
 
         else:
             prompt = topic
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt
-        )
+        response = model.generate_content(prompt)
 
         st.write(response.text)
+
+     
